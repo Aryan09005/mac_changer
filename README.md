@@ -1,9 +1,9 @@
 # mac_changer
 python mac changer
 
-Short, simple and responsive mac changer
+Short, simple, secure responsive mac changer
 
 run:
-  python2 mac_changer.py
+  python3 mac_changer.py
   
   
