@@ -28,20 +28,19 @@ def change(interface, mac):
 	# sp.call(['sudo', 'ifconfig'])
 	
 
-def check():
+def check(interface, mac):
+	
 	"""Here we cheack if the mac has changed"""
-	ifconfig = sp.check_output(['sudo','ifconfig','eth0'])
-	mac_result = re.search(r'\w\w:\w\w:\w\w:\w\w:\w\w:\w\w',ifconfig)
-	# print(mac_result.group(0))
-	if mac_result.group(0) == mac:
+	ifconfig = sp.check_output(['sudo','ifconfig',interface])
+	if mac in str(ifconfig):
 		print('Mac changed')
 		print('[+] '+interface+' --> '+mac)
 	else:
-		print('Faliour')
+		print('[[[[!]]]] Faliour')
 
 
 # now just calling all the methods
 (interface, mac) = get_arguments()
 change(interface, mac)
-check()
+check(interface, mac)
 
