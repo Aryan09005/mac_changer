@@ -3,7 +3,7 @@
 import re
 import argparse
 import subprocess as sp
-
+from random import choice
 
 parser = argparse.ArgumentParser()
 
@@ -31,16 +31,37 @@ def change(interface, mac):
 def check(interface, mac):
 	
 	"""Here we cheack if the mac has changed"""
-	ifconfig = sp.check_output(['sudo','ifconfig',interface])
-	if mac in str(ifconfig):
+	ifconfig = sp.check_output(['sudo','ifconfig',interface]).decode()
+	regexMax = re.compile(r'(\w\w:){5}\w\w')
+	# if mac in str(ifconfig):
+	# 	print('Mac changed')
+	# 	print('[+] '+interface+' --> '+mac)
+	# else:
+	result = regexMax.search(ifconfig)
+	if not result == None and result.group() == mac:
 		print('Mac changed')
 		print('[+] '+interface+' --> '+mac)
 	else:
-		print('[[[[!]]]] Faliour')
+		print('[[[[!]]]] Faliour',result.group())
+		# print('Error ')
+		# print()	
 
+
+def random():
+	mac = ''
+	for _ in range(0,6):
+		hex_stuff = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f']
+		mac += str(choice(hex_stuff))
+		mac += str(choice(hex_stuff))
+		mac += ':'
+	print('Random : ',mac[:-1])	
+	return mac[:-1]
 
 # now just calling all the methods
 (interface, mac) = get_arguments()
+
+if mac == None:
+	mac = random()
+
 change(interface, mac)
 check(interface, mac)
-
