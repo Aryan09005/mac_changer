@@ -33,18 +33,12 @@ def check(interface, mac):
 	"""Here we cheack if the mac has changed"""
 	ifconfig = sp.check_output(['sudo','ifconfig',interface]).decode()
 	regexMax = re.compile(r'(\w\w:){5}\w\w')
-	# if mac in str(ifconfig):
-	# 	print('Mac changed')
-	# 	print('[+] '+interface+' --> '+mac)
-	# else:
 	result = regexMax.search(ifconfig)
 	if not result == None and result.group() == mac:
 		print('Mac changed')
 		print('[+] '+interface+' --> '+mac)
 	else:
 		print('[[[[!]]]] Faliour',result.group())
-		# print('Error ')
-		# print()	
 
 
 def random():
